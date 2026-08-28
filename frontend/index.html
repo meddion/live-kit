@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LiveKit Rooms</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <main>
+        <header class="topbar">
+            <h1>LiveKit Rooms</h1>
+            <div class="user-box" id="user-box" hidden>
+                <span id="user-name"></span>
+                <button type="button" id="logout-btn">Log out</button>
+            </div>
+        </header>
+
+        <section class="card">
+            <h2>Create a room</h2>
+            <form id="create-form">
+                <label>
+                    Room name
+                    <input type="text" id="create-room" name="room" required maxlength="32" />
+                </label>
+                <button type="submit">Create &amp; Join</button>
+            </form>
+            <p id="create-status" class="form-status" hidden></p>
+        </section>
+
+        <section class="card">
+            <div class="section-header">
+                <h2>Available rooms</h2>
+                <button type="button" id="refresh-btn">Refresh</button>
+            </div>
+            <p id="rooms-status"></p>
+            <ul id="rooms-list"></ul>
+        </section>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,8 @@
+port: 7880
+room:
+  auto_create: true
+  empty_timeout: 300
+  departure_timeout: 300
+  max_participants: 4
+logging:
+  level: info

@@ -1,0 +1,36 @@
+services:
+  meet:
+    container_name: livekit-meet
+    build:
+      context: .
+      dockerfile: Dockerfile.livekit-meet
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.dev
+  app:
+    container_name: livekit-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env.dev
+    volumes:
+      - ./data:/app/data
+  server:
+    container_name: livekit-server
+    image: livekit/livekit-server:v1.13
+    env_file:
+      - .env.dev
+    command: --config /etc/livekit.yaml --dev --bind 0.0.0.0
+    restart: unless-stopped
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml
