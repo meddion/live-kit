@@ -16,5 +16,4 @@ FROM alpine:3.24
 WORKDIR /app
 COPY --from=builder /build/main /app/
 COPY frontend/ /app/frontend/
-COPY users.json /app/users.json
 ENTRYPOINT ["/app/main"]
