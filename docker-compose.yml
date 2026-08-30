@@ -1,5 +1,5 @@
 services:
-  meet:
+  livekit-meet:
     container_name: livekit-meet
     build:
       context: .
@@ -9,7 +9,7 @@ services:
       - "3000:3000"
     env_file:
       - .env.dev
-  app:
+  livekit-app:
     container_name: livekit-app
     build:
       context: .
@@ -21,7 +21,7 @@ services:
       - .env.dev
     volumes:
       - ./data:/app/data
-  server:
+  livekit-server:
     container_name: livekit-server
     image: livekit/livekit-server:v1.13
     env_file:

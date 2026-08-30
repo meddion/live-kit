@@ -12,17 +12,36 @@ const userBox = document.getElementById("user-box");
 const userName = document.getElementById("user-name");
 const logoutBtn = document.getElementById("logout-btn");
 
+const loginCard = document.getElementById("login-card");
+const loginForm = document.getElementById("login-form");
+const loginStatus = document.getElementById("login-status");
+const appContent = document.getElementById("app-content");
+
+function showLoggedIn(identity) {
+    userName.textContent = identity;
+    userBox.hidden = false;
+    loginCard.hidden = true;
+    appContent.hidden = false;
+}
+
+function showLoggedOut() {
+    userBox.hidden = true;
+    appContent.hidden = true;
+    loginCard.hidden = false;
+}
+
 async function fetchMe() {
     try {
         const res = await fetch(`${API_BASE}/me`);
         if (!res.ok) {
+            showLoggedOut();
             return;
         }
         const data = await res.json();
-        userName.textContent = data.identity;
-        userBox.hidden = false;
+        showLoggedIn(data.identity);
+        fetchRooms();
     } catch (err) {
-        // Ignore; the user box simply stays hidden.
+        showLoggedOut();
     }
 }
 
@@ -163,14 +182,39 @@ function clearCreateError() {
 
 refreshBtn.addEventListener("click", fetchRooms);
 
+loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    loginStatus.hidden = true;
+    loginStatus.classList.remove("error");
+    const username = document.getElementById("login-username").value.trim();
+    const password = document.getElementById("login-password").value;
+    try {
+        const res = await fetch(`${API_BASE}/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password }),
+        });
+        if (!res.ok) {
+            throw new Error(await readError(res));
+        }
+        const data = await res.json();
+        loginForm.reset();
+        showLoggedIn(data.identity);
+        fetchRooms();
+    } catch (err) {
+        loginStatus.textContent = `Login failed: ${err.message}`;
+        loginStatus.classList.add("error");
+        loginStatus.hidden = false;
+    }
+});
+
 logoutBtn.addEventListener("click", async () => {
     try {
         await fetch(`${API_BASE}/logout`, { method: "POST" });
     } catch (err) {
-        // Ignore and reload regardless.
+        // Ignore and reset the view regardless.
     }
-    window.location.reload();
+    showLoggedOut();
 });
 
 fetchMe();
-fetchRooms();

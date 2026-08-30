@@ -1,5 +1,5 @@
 build-app:
-	docker compose build app
+	docker compose build livekit-app
 
 up-dev: build-app
 	docker compose up

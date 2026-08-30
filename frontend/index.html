@@ -18,26 +18,45 @@
             </div>
         </header>
 
-        <section class="card">
-            <h2>Create a room</h2>
-            <form id="create-form">
+        <section class="card" id="login-card" hidden>
+            <h2>Sign in</h2>
+            <form id="login-form">
                 <label>
-                    Room name
-                    <input type="text" id="create-room" name="room" required maxlength="32" />
+                    Username
+                    <input type="text" id="login-username" name="username" autocomplete="username" required />
                 </label>
-                <button type="submit">Create &amp; Join</button>
+                <label>
+                    Password
+                    <input type="password" id="login-password" name="password" autocomplete="current-password"
+                        required />
+                </label>
+                <button type="submit">Log in</button>
             </form>
-            <p id="create-status" class="form-status" hidden></p>
+            <p id="login-status" class="form-status" hidden></p>
         </section>
 
-        <section class="card">
-            <div class="section-header">
-                <h2>Available rooms</h2>
-                <button type="button" id="refresh-btn">Refresh</button>
-            </div>
-            <p id="rooms-status"></p>
-            <ul id="rooms-list"></ul>
-        </section>
+        <div id="app-content" hidden>
+            <section class="card">
+                <h2>Create a room</h2>
+                <form id="create-form">
+                    <label>
+                        Room name
+                        <input type="text" id="create-room" name="room" required maxlength="32" />
+                    </label>
+                    <button type="submit">Create &amp; Join</button>
+                </form>
+                <p id="create-status" class="form-status" hidden></p>
+            </section>
+
+            <section class="card">
+                <div class="section-header">
+                    <h2>Available rooms</h2>
+                    <button type="button" id="refresh-btn">Refresh</button>
+                </div>
+                <p id="rooms-status"></p>
+                <ul id="rooms-list"></ul>
+            </section>
+        </div>
     </main>
 
     <script src="app.js"></script>

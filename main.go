@@ -63,18 +63,22 @@ func main() {
 	srv := service.NewRooms(liveKitAPI.Room(), cfg.LiveKitPublicServerURL, tokenGen, pc)
 	handler := transport.NewRoomHandler(srv, cfg.LiveKitMeetURL)
 	auth := transport.NewAuthMiddleware(userStore, service.NewSessionStore())
+	apiMux := http.NewServeMux()
+	apiMux.HandleFunc("GET /api/v1/rooms", handler.HandleRoomList)
+	apiMux.HandleFunc("POST /api/v1/rooms/{room}/join", handler.HandleRoomJoin)
+	apiMux.HandleFunc("GET /api/v1/me", auth.HandleMe)
+	apiMux.HandleFunc("POST /api/v1/logout", auth.HandleLogout)
+
 	mux := http.NewServeMux()
-	mux.HandleFunc("GET /api/v1/rooms", handler.HandleRoomList)
-	mux.HandleFunc("POST /api/v1/rooms/{room}/join", handler.HandleRoomJoin)
-	mux.HandleFunc("GET /api/v1/me", auth.HandleMe)
-	mux.HandleFunc("POST /api/v1/logout", auth.HandleLogout)
+	mux.HandleFunc("POST /api/v1/login", auth.HandleLogin)
+	mux.Handle("/api/v1/", auth.Wrap(apiMux))
 	mux.Handle("/", http.FileServer(http.Dir("frontend")))
 
 	ongoingCtx, cancelOngoing := context.WithCancel(context.Background())
 	defer cancelOngoing()
 	server := &http.Server{
 		Addr:    ":8080",
-		Handler: auth.Wrap(mux),
+		Handler: mux,
 		BaseContext: func(l net.Listener) context.Context {
 			return ongoingCtx
 		},

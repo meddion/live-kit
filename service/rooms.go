@@ -14,7 +14,8 @@ import (
 	"github.com/meddion/live-kit/api"
 )
 
-const TokenValidTime = time.Hour // TODO: make it configurable
+// TokenValidTime needs to be valid for at least 5 minutes to allow the client to connect to the LiveKit server.
+const TokenValidTime = 5 * time.Minute
 
 const RoomEmptyTimeoutSec = 300
 const RoomDepartureTimeoutSec = 300
