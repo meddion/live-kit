@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile.livekit-meet
     restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "3088:3000"
     env_file:
       - ${ENV_FILE:-.env}
   livekit-app:
