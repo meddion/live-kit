@@ -1,4 +1,4 @@
-.env
+.env.prod
 *.db
 *.db-shm
 *.db-wal
