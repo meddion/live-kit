@@ -141,11 +141,6 @@ func ParseConfigFromEnv() (Config, error) {
 		apiSecret = "secret"
 	}
 
-	usersFilePath, exist := os.LookupEnv("APP_USERS_FILE")
-	if !exist {
-		usersFilePath = "users.json"
-	}
-
 	dbFilePath, exist := os.LookupEnv("APP_DB_FILE")
 	if !exist {
 		dbFilePath = "main.db"
@@ -157,7 +152,7 @@ func ParseConfigFromEnv() (Config, error) {
 		LiveKitMeetURL:          meetURL,
 		APIKey:                  apiKey,
 		APISecret:               apiSecret,
-		UsersFilePath:           usersFilePath,
+		UsersFilePath:           "users.json",
 		DBFilePath:              dbFilePath,
 	}, nil
 }
