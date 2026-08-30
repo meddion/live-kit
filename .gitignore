@@ -3,5 +3,6 @@
 *.db
 *.db-shm
 *.db-wal
-data/
+data/**
+!data/.gitkeep
 users.json
