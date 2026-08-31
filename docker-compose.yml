@@ -1,5 +1,7 @@
 services:
   livekit-meet:
+    depends_on:
+      - livekit-server
     container_name: livekit-meet
     build:
       context: .
@@ -10,6 +12,8 @@ services:
     env_file:
       - ${ENV_FILE:-.env}
   livekit-app:
+    depends_on:
+      - livekit-meet
     container_name: livekit-app
     build:
       context: .

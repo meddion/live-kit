@@ -14,3 +14,6 @@ token-dev:
 
 generate-keys:
 	docker run --rm livekit/livekit-server generate-keys
+
+test-integration:
+	go test ./integration/ -run TestE2ESuite -v

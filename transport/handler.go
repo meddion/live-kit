@@ -35,7 +35,7 @@ type Room struct {
 	ActiveRecording bool   `json:"active_recording"`
 }
 
-type roomListResponse struct {
+type RoomListResponse struct {
 	Rooms []Room `json:"rooms"`
 }
 
@@ -63,7 +63,7 @@ func (this *RoomHandler) HandleRoomList(w http.ResponseWriter, r *http.Request) 
 		})
 	}
 
-	buf, err := json.Marshal(roomListResponse{Rooms: rooms})
+	buf, err := json.Marshal(RoomListResponse{Rooms: rooms})
 	if err != nil {
 		slog.Error("failed to encode response payload", "error", err)
 		http.Error(w, "failed to write response", http.StatusInternalServerError)
@@ -104,13 +104,13 @@ func (this *RoomHandler) HandleRoomJoin(w http.ResponseWriter, r *http.Request) 
 	w.Write(buf)
 }
 
-type roomJoinResponse struct {
+type RoomJoinResponse struct {
 	ServerURL string `json:"server_url"`
 	UserToken string `json:"user_token"`
 	JoinURL   string `json:"join_url"`
 }
 
-func newJoinResponse(liveKitMeetURL, serverURL, userToken string) roomJoinResponse {
+func newJoinResponse(liveKitMeetURL, serverURL, userToken string) RoomJoinResponse {
 	basePath, err := url.JoinPath(liveKitMeetURL, "custom")
 	if err != nil {
 		panic(err)
@@ -119,7 +119,7 @@ func newJoinResponse(liveKitMeetURL, serverURL, userToken string) roomJoinRespon
 	params.Set("liveKitUrl", serverURL)
 	params.Set("token", userToken)
 
-	return roomJoinResponse{
+	return RoomJoinResponse{
 		JoinURL:   basePath + "/?" + params.Encode(),
 		ServerURL: serverURL,
 		UserToken: userToken,

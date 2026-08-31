@@ -22,6 +22,15 @@ type SessionManager interface {
 
 const sessionCookieName = "session"
 
+type LoginRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type IdentityResponse struct {
+	Identity string `json:"identity"`
+}
+
 type AuthMiddleware struct {
 	users    Authenticator
 	sessions SessionManager
@@ -50,10 +59,7 @@ func (this *AuthMiddleware) Wrap(next http.Handler) http.Handler {
 // HandleLogin validates the posted credentials and, on success, issues a
 // session cookie.
 func (this *AuthMiddleware) HandleLogin(w http.ResponseWriter, r *http.Request) {
-	var creds struct {
-		Username string `json:"username"`
-		Password string `json:"password"`
-	}
+	var creds LoginRequest
 	if err := json.NewDecoder(r.Body).Decode(&creds); err != nil {
 		http.Error(w, "invalid request body", http.StatusBadRequest)
 		return
@@ -80,7 +86,7 @@ func (this *AuthMiddleware) HandleLogin(w http.ResponseWriter, r *http.Request) 
 	})
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"identity": creds.Username})
+	json.NewEncoder(w).Encode(IdentityResponse{Identity: creds.Username})
 }
 
 // HandleMe returns the identity of the currently authenticated user.
@@ -92,7 +98,7 @@ func (this *AuthMiddleware) HandleMe(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"identity": identity})
+	json.NewEncoder(w).Encode(IdentityResponse{Identity: identity})
 }
 
 // HandleLogout invalidates the session and clears its cookie.
