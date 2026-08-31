@@ -69,6 +69,10 @@ func main() {
 	apiMux.HandleFunc("POST /api/v1/logout", auth.HandleLogout)
 
 	mux := http.NewServeMux()
+	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("ok"))
+	})
 	mux.HandleFunc("POST /api/v1/login", auth.HandleLogin)
 	mux.Handle("/api/v1/", auth.Wrap(apiMux))
 	mux.Handle("/", http.FileServer(http.Dir("frontend")))
