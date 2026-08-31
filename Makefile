@@ -2,7 +2,7 @@ build-app:
 	docker compose build livekit-app
 
 up-dev: build-app
-	USERS_FILE_PATH=./users.json LIVEKIT_SERVER_DEV_FLAG=--dev ENV_FILE=.env.dev docker compose up
+	LIVEKIT_SERVER_DEV_FLAG=--dev ENV_FILE=.env.dev USERS_FILE_PATH=./users-dev.json docker compose up
 
 up-prod:
 	ENV_FILE=.env docker compose up -d

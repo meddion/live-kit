@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/meddion/live-kit/auth"
@@ -23,6 +24,10 @@ type seedFile struct {
 // untouched so seeding is idempotent.
 func (this *Store) Seed(path string) error {
 	buf, err := os.ReadFile(path)
+	if errors.Is(err, os.ErrNotExist) {
+		slog.Warn("seed file not found, skipping user seeding", "path", path)
+		return nil
+	}
 	if err != nil {
 		return fmt.Errorf("reading seed file: %w", err)
 	}

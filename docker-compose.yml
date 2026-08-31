@@ -21,7 +21,7 @@ services:
       - ${ENV_FILE:-.env}
     volumes:
       - ./data:/app/data
-      - ${USERS_FILE_PATH:-./users.json}:/app/users.json:ro
+      - ${USERS_FILE_PATH:-}:/app/users.json:ro
   livekit-server:
     container_name: livekit-server
     image: livekit/livekit-server:v1.13

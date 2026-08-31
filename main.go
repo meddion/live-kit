@@ -55,7 +55,6 @@ func main() {
 	defer userStore.Close()
 	if err := userStore.Seed(cfg.UsersFilePath); err != nil {
 		slog.Error("failed to seed users", "path", cfg.UsersFilePath, "error", err)
-		os.Exit(1)
 	}
 
 	tokenGen := service.NewTokenGenerator(cfg.APIKey, cfg.APISecret)

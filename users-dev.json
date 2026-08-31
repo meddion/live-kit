@@ -1,0 +1,45 @@
+{
+    "users": [
+        {
+            "username": "mark",
+            "password": "mark-dev",
+            "permissions": [
+                "GodAlmighty"
+            ]
+        },
+        {
+            "username": "jack",
+            "password": "jack-dev",
+            "permissions": [
+                "JoinRooms",
+                "ViewRooms"
+            ]
+        },
+        {
+            "username": "tony",
+            "password": "tony-dev",
+            "permissions": [
+                "CreateRooms",
+                "JoinRooms"
+            ]
+        },
+        {
+            "username": "ivan",
+            "password": "ivan-dev",
+            "permissions": [
+                "CreateRooms",
+                "JoinRooms",
+                "ViewRooms"
+            ]
+        },
+        {
+            "username": "mykola",
+            "password": "mykola-dev",
+            "permissions": [
+                "CreateRooms",
+                "JoinRooms",
+                "ViewRooms"
+            ]
+        }
+    ]
+}
